@@ -1,5 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
 import React, { useEffect } from 'react';
-import { SafeAreaView, View, Text } from 'react-native';
+import { SafeAreaView, View, Image } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import WebView from 'react-native-webview';
 
@@ -48,7 +50,10 @@ const App = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                            <Text>LOADING</Text>
+                            <Image
+                                source={require('./img.jpg')}
+                                style={{ height: '100%', width: '100%' }}
+                            />
                         </View>
                     )}
                 />
