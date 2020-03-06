@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "437568831542",
+    "firebase_url": "https://triz-first.firebaseio.com",
+    "project_id": "triz-first",
+    "storage_bucket": "triz-first.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437568831542:android:aae20b31a5a24bd4521897",
+        "android_client_info": {
+          "package_name": "com.amipure"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437568831542-i5u07sntetkag8upgekjjr2u2tnff454.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2BhrrF82nMUIewOxhKtNG0xnMgHD75fU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437568831542-i5u07sntetkag8upgekjjr2u2tnff454.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
