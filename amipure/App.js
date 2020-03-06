@@ -3,9 +3,14 @@
 import React, { useEffect } from 'react';
 import { SafeAreaView, View, Image } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import iid from '@react-native-firebase/iid';
+import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import WebView from 'react-native-webview';
 
 const App = () => {
+    const bootstrap = async () => {
+        await inAppMessaging().setMessagesDisplaySuppressed(true);
+    };
     const getFcmToken = async () => {
         const fcmToken = await messaging().getToken();
         if (fcmToken) {
@@ -28,8 +33,14 @@ const App = () => {
             await getFcmToken();
         }
     };
+    const inStanceId = async () => {
+        const id = await iid().get();
+        console.log('iid', id);
+    };
 
     useEffect(() => {
+        inStanceId();
+        bootstrap();
         requestPermission();
     }, []);
     return (
