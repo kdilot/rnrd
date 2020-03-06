@@ -12,10 +12,24 @@ const App = () => {
             console.log('Failed', 'No token received');
         }
     };
+    const registerAppWithFCM = async () => {
+        await messaging().registerForRemoteNotifications();
+    };
+    const requestPermission = async () => {
+        const granted = await messaging().requestPermission();
+
+        if (granted) {
+            await getFcmToken();
+        } else {
+            console.log('[User declined messaging permissions :(]');
+            await registerAppWithFCM();
+            await getFcmToken();
+        }
+    };
 
     useEffect(() => {
-        getFcmToken();
-    });
+        requestPermission();
+    }, []);
     return (
         <SafeAreaView>
             <View

@@ -20,6 +20,7 @@
 		58697E29D09BE569576F35D8 /* libPods-amipure.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E1573CC81551A9DCFFDE615 /* libPods-amipure.a */; };
 		732A9A664311F42D379817C6 /* libPods-amipure-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD283DACE1259B316F127D2 /* libPods-amipure-tvOSTests.a */; };
 		D9A076FE6FB953C3B1376148 /* libPods-amipure-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C07DA1912A827014E70E243E /* libPods-amipure-tvOS.a */; };
+		DE88F0452412056D00446329 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DE88F0442412056D00446329 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		C07DA1912A827014E70E243E /* libPods-amipure-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-amipure-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D23E2CC7C10B88D91DBE7B01 /* Pods-amipureTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-amipureTests.debug.xcconfig"; path = "Target Support Files/Pods-amipureTests/Pods-amipureTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D33263F896ADD955C5DDE549 /* Pods-amipure-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-amipure-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-amipure-tvOS/Pods-amipure-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		DE88F0442412056D00446329 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E55DA30BA93BB87D3D3DA84E /* Pods-amipure.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-amipure.release.xcconfig"; path = "Target Support Files/Pods-amipure/Pods-amipure.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -125,6 +127,7 @@
 		13B07FAE1A68108700A75B9A /* amipure */ = {
 			isa = PBXGroup;
 			children = (
+				DE88F0442412056D00446329 /* GoogleService-Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -148,7 +151,6 @@
 				D23E2CC7C10B88D91DBE7B01 /* Pods-amipureTests.debug.xcconfig */,
 				AEAFE1A9D0D17D3C59822571 /* Pods-amipureTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -231,7 +233,6 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				A5E8BD3FC1053FA4380A593B /* [CP-User] [RNFB] Core Configuration */,
-				2291BD953485941318C84BE7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -310,6 +311,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -340,6 +342,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				DE88F0452412056D00446329 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,25 +377,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		2291BD953485941318C84BE7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-amipure/Pods-amipure-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInAppMessaging/InAppMessagingDisplayResources.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInAppMessagingDisplay/InAppMessagingDisplayResources.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/InAppMessagingDisplayResources.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-amipure/Pods-amipure-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		23C7250FBFC33D6573996A8A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
