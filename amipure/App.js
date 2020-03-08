@@ -8,8 +8,13 @@ import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import WebView from 'react-native-webview';
 
 const App = () => {
-    const bootstrap = async () => {
-        await inAppMessaging().setMessagesDisplaySuppressed(true);
+    const bootstrap = async event => {
+        if (event.title) {
+            console.log('[TURN ON] IN APP MESSAGING');
+            setTimeout(async () => {
+                await inAppMessaging().setMessagesDisplaySuppressed(true);
+            }, 2000);
+        }
     };
     const getFcmToken = async () => {
         const fcmToken = await messaging().getToken();
@@ -23,6 +28,7 @@ const App = () => {
         await messaging().registerForRemoteNotifications();
     };
     const requestPermission = async () => {
+        await inAppMessaging().setMessagesDisplaySuppressed(false);
         const granted = await messaging().requestPermission();
 
         if (granted) {
@@ -40,7 +46,7 @@ const App = () => {
 
     useEffect(() => {
         inStanceId();
-        bootstrap();
+        // bootstrap();
         requestPermission();
     }, []);
     return (
@@ -53,6 +59,7 @@ const App = () => {
                 <WebView
                     source={{ uri: 'https://www.amipure.com' }}
                     startInLoadingState={true}
+                    onLoadEnd={e => bootstrap(e.nativeEvent)}
                     renderLoading={() => (
                         <View
                             style={{
