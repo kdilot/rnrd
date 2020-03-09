@@ -6,6 +6,7 @@ import messaging from '@react-native-firebase/messaging';
 import iid from '@react-native-firebase/iid';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import WebView from 'react-native-webview';
+import NetInfo from '@react-native-community/netinfo';
 
 const App = () => {
     const bootstrap = async event => {
@@ -44,9 +45,17 @@ const App = () => {
         console.log('iid', id);
     };
 
+    const netCheck = () => {
+        NetInfo.fetch().then(state => {
+            console.log(state);
+            console.log('Connection type', state.type);
+            console.log('Is connected?', state.isConnected);
+        });
+    };
+
     useEffect(() => {
+        netCheck();
         inStanceId();
-        // bootstrap();
         requestPermission();
     }, []);
     return (
@@ -69,7 +78,10 @@ const App = () => {
                                 alignItems: 'center',
                             }}>
                             <Image
-                                source={require('./img.jpg')}
+                                source={{
+                                    uri:
+                                        'http://d3u1yjzx8lht2p.cloudfront.net/images/amipure/intro_yellow_duck.jpg',
+                                }}
                                 style={{ height: '100%', width: '100%' }}
                             />
                         </View>
