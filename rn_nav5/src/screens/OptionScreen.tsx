@@ -1,12 +1,11 @@
 import React from 'react';
-import { Text, Button } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text, Button, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const OptionScreen: React.FC = () => {
     const navigation = useNavigation();
     return (
-        <SafeAreaView
+        <View
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Option Screen</Text>
             <Button title="Home" onPress={() => navigation.navigate('Home')} />
@@ -14,7 +13,7 @@ const OptionScreen: React.FC = () => {
                 title="Option"
                 onPress={() => navigation.navigate('Option')}
             />
-        </SafeAreaView>
+        </View>
     );
 };
 
