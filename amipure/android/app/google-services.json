@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "437568831542",
-    "firebase_url": "https://triz-first.firebaseio.com",
-    "project_id": "triz-first",
-    "storage_bucket": "triz-first.appspot.com"
+    "project_number": "601942487900",
+    "firebase_url": "https://triz-android.firebaseio.com",
+    "project_id": "triz-android",
+    "storage_bucket": "triz-android.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:437568831542:android:aae20b31a5a24bd4521897",
+        "mobilesdk_app_id": "1:601942487900:android:be8431ba6536f1b3cb8799",
         "android_client_info": {
           "package_name": "com.amipure"
         }
       },
       "oauth_client": [
         {
-          "client_id": "437568831542-i5u07sntetkag8upgekjjr2u2tnff454.apps.googleusercontent.com",
+          "client_id": "601942487900-5bn1h9un2jmc4veb27i33us1t21ji33d.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA2BhrrF82nMUIewOxhKtNG0xnMgHD75fU"
+          "current_key": "AIzaSyBXA9IynWuYNkQnlS1U1MiyXvBRwWHalGs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "437568831542-i5u07sntetkag8upgekjjr2u2tnff454.apps.googleusercontent.com",
+              "client_id": "601942487900-5bn1h9un2jmc4veb27i33us1t21ji33d.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
