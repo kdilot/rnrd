@@ -6,14 +6,15 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 interface Props {
     isVisible: boolean;
     onClose: any;
+    isPortrait: boolean;
 }
 
-const GiftBox: React.FC<Props> = ({ isVisible, onClose }) => {
+const GiftBox: React.FC<Props> = ({ isVisible, onClose, isPortrait }) => {
     const [animation] = useState(new Animated.Value(0));
     const [giftType, setgiftType] = useState(0);
     useEffect(() => {
         Animated.timing(animation, {
-            toValue: isVisible ? 300 : 0,
+            toValue: isVisible ? (isPortrait ? 300 : 200) : 0,
             duration: 300,
         }).start();
     });
@@ -24,7 +25,10 @@ const GiftBox: React.FC<Props> = ({ isVisible, onClose }) => {
                 onPress={onClose}
             />
             <Animated.View
-                style={[styles.GiftContainer, { height: animation }]}>
+                style={[
+                    styles.GiftContainer(isPortrait),
+                    { height: animation },
+                ]}>
                 <View style={styles.GiftType}>
                     <Text
                         style={[
@@ -71,12 +75,12 @@ const styles = StyleSheet.create<any>({
         height: '100%',
         display: isVisible ? 'flex' : 'none',
     }),
-    GiftContainer: {
+    GiftContainer: (isPortrait: boolean) => ({
         backgroundColor: 'rgba(0, 0, 0, 0.3)',
         width: '100%',
         position: 'absolute',
-        bottom: 40,
-    },
+        bottom: isPortrait ? 40 : 0,
+    }),
     GiftType: {
         height: 40,
         flexDirection: 'row',
