@@ -1,23 +1,40 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, Keyboard } from 'react-native';
 import styled from 'styled-components/native';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { VideoInfo } from '@components';
+import { VideoInfo, GiftBox } from '@components';
 
 const Test: React.FC = () => {
     const [isVideoInfo, setIsVideoInfo] = useState(false);
+    const [isGiftBox, setIsGiftBox] = useState(false);
+
+    const resetVisible = () => {
+        setIsVideoInfo(false);
+        setIsGiftBox(false);
+    };
+    useEffect(() => {
+        // 키보드 활성시 메뉴 숨김
+        this.keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            resetVisible,
+        );
+        return () => {
+            this.keyboardDidShowListener.remove();
+        };
+    });
     return (
         <Container>
             <VedioLayout
                 onPress={() => setIsVideoInfo(!isVideoInfo)}
                 activeOpacity={1}>
-                <Text>{isVideoInfo ? 'TRUE' : 'FALSE'}</Text>
+                <Text>영상영역</Text>
             </VedioLayout>
             {<VideoInfo isVisible={isVideoInfo} />}
             <MessageLayout>
-                <Text>sd</Text>
+                <Text>채팅입니다..</Text>
             </MessageLayout>
+            <GiftBox isVisible={isGiftBox} onClose={setIsGiftBox} />
             <InputLayout>
                 <View
                     style={{
@@ -31,6 +48,7 @@ const Test: React.FC = () => {
                         placeholder="입력하세요."
                     />
                     <TouchableOpacity
+                        onPress={() => setIsGiftBox(!isGiftBox)}
                         activeOpacity={1}
                         style={{
                             padding: 5,
@@ -60,23 +78,31 @@ export default Test;
 const Container = styled.View`
     align-items: center;
     height: 100%;
+    background-color: white;
 `;
 
 const VedioLayout = styled.TouchableOpacity`
     width: 100%;
     height: 260px;
     background: lightcoral;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
 `;
 
 const MessageLayout = styled.View`
     width: 100%;
     flex: 1;
     background: lightgreen;
+    border-top-width: 1px;
+    border-top-color: 'rgba(0,0,0,0.3)';
+    padding: 5px;
 `;
 
 const InputLayout = styled.View`
     width: 100%;
     height: 40px;
     background: white;
-    border-top-width: 0.5px;
+    border-top-width: 1px;
+    border-top-color: 'rgba(0,0,0,0.3)';
 `;
