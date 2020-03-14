@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, View, Image, Text, TouchableOpacity} from 'react-native';
-import WebView from 'react-native-webview';
+import ProgressWebView from 'react-native-progress-webview';
 import NetInfo from '@react-native-community/netinfo';
 
 const App = () => {
@@ -20,13 +20,13 @@ const App = () => {
         style={{
           height: '100%',
           width: '100%',
-          backgroundColor: 'black',
         }}>
         {isConnected ? (
-          <WebView
+          <ProgressWebView
             source={{uri: 'https://www.amipure.com'}}
             startInLoadingState={true}
             // onLoadEnd={e => bootstrap(e.nativeEvent)}
+            color={'yellow'}
             renderLoading={() => (
               <View
                 style={{
