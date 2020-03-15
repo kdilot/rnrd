@@ -1,7 +1,12 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Animated, View, Text } from 'react-native';
 import ViewPager from '@react-native-community/viewpager';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { FlatGrid } from 'react-native-super-grid';
+
+const ARR = new Array(10).fill(0);
+const ARR2 = new Array(10).fill(1);
 
 interface Props {
     isVisible: boolean;
@@ -50,10 +55,36 @@ const GiftBox: React.FC<Props> = ({ isVisible, onClose, isPortrait }) => {
                     initialPage={0}
                     onPageSelected={e => setgiftType(e.nativeEvent.position)}>
                     <View style={styles.GiftViewerContents}>
-                        <Text>First page</Text>
+                        <FlatGrid
+                            itemDimension={130}
+                            items={ARR}
+                            renderItem={({ item }) => (
+                                <Text
+                                    style={{
+                                        padding: 30,
+                                        textAlign: 'center',
+                                        borderWidth: 1,
+                                    }}>
+                                    {item}
+                                </Text>
+                            )}
+                        />
                     </View>
                     <View style={styles.GiftViewerContents}>
-                        <Text>Second page</Text>
+                        <FlatGrid
+                            itemDimension={130}
+                            items={ARR2}
+                            renderItem={({ item }) => (
+                                <Text
+                                    style={{
+                                        padding: 30,
+                                        textAlign: 'center',
+                                        borderWidth: 1,
+                                    }}>
+                                    {item}
+                                </Text>
+                            )}
+                        />
                     </View>
                 </ViewPager>
             </Animated.View>
@@ -69,7 +100,7 @@ const styles = StyleSheet.create<any>({
         width: '100%',
         position: 'absolute',
         bottom: 0,
-        zIndex: isVisible ? 10 : 0,
+        zIndex: isVisible ? 1 : 0,
     }),
     EmptyContainer: (isVisible: any) => ({
         height: '100%',
