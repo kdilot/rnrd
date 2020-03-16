@@ -6,11 +6,34 @@ import NetInfo from '@react-native-community/netinfo';
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(true);
+
   const onNetwork = () => {
     NetInfo.fetch().then(state => {
       setIsConnected(state.isConnected);
     });
   };
+
+  const onLoad = () => {
+    return (
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 10,
+        }}>
+        <Image
+          source={{
+            uri:
+              'http://d3u1yjzx8lht2p.cloudfront.net/images/amipure/intro_yellow_duck.jpg',
+          }}
+          style={{height: '100%', width: '100%'}}
+        />
+      </View>
+    );
+  };
+
   useEffect(() => {
     onNetwork();
   });
@@ -20,30 +43,13 @@ const App = () => {
         style={{
           height: '100%',
           width: '100%',
+          zIndex: 0,
         }}>
         {isConnected ? (
           <ProgressWebView
             source={{uri: 'https://www.amipure.com'}}
             startInLoadingState={true}
-            // onLoadEnd={e => bootstrap(e.nativeEvent)}
-            color={'yellow'}
-            renderLoading={() => (
-              <View
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={{
-                    uri:
-                      'http://d3u1yjzx8lht2p.cloudfront.net/images/amipure/intro_yellow_duck.jpg',
-                  }}
-                  style={{height: '100%', width: '100%'}}
-                />
-              </View>
-            )}
+            renderLoading={() => onLoad()}
           />
         ) : (
           <View
