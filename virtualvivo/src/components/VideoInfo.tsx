@@ -15,24 +15,31 @@ interface Props {
 
 const VideoInfo: React.FC<Props> = ({ isVisible, isKeyboard }) => {
     const [animation] = useState(new Animated.Value(0));
+    const [opacityAni] = useState(new Animated.Value(0));
     useEffect(() => {
         Animated.timing(animation, {
             toValue: isVisible ? 80 : 0,
             duration: 300,
         }).start();
+        Animated.timing(opacityAni, {
+            toValue: isVisible ? 1 : 0,
+            duration: 300,
+        }).start();
     });
     return (
         <Animated.View style={[styles.Container, { height: animation }]}>
-            <View
+            <Animated.View
                 style={[
                     styles.Avatar,
+                    { opacity: opacityAni },
                     (!isVisible || isKeyboard) && { display: 'none' },
                 ]}>
                 <Text style={{ color: 'white', fontWeight: 'bold' }}>TRIZ</Text>
-            </View>
-            <View
+            </Animated.View>
+            <Animated.View
                 style={[
                     styles.Contents,
+                    { opacity: opacityAni },
                     (!isVisible || isKeyboard) && { display: 'none' },
                 ]}>
                 <View>
@@ -42,7 +49,7 @@ const VideoInfo: React.FC<Props> = ({ isVisible, isKeyboard }) => {
                 <TouchableOpacity style={styles.Button} activeOpacity={1}>
                     <Text style={{ color: 'white' }}>구독</Text>
                 </TouchableOpacity>
-            </View>
+            </Animated.View>
         </Animated.View>
     );
 };
