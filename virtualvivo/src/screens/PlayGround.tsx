@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
-import { VideoInfo, GiftBox, MessageInput } from '@components';
+import { VideoInfo, GiftBox, MessageInput, VideoCover } from '@components';
 import useDeviceOrientation from '@rnhooks/device-orientation';
 import useKeyboard from '@rnhooks/keyboard';
 
@@ -28,7 +28,7 @@ const Test: React.FC = () => {
             <VedioLayout
                 onPress={() => setIsVideoInfo(!isVideoInfo)}
                 activeOpacity={1}>
-                {/* <VideoCover /> */}
+                <VideoCover />
             </VedioLayout>
             <VideoInfo isVisible={isVideoInfo} isKeyboard={visible} />
             <MessageLayout>
@@ -50,7 +50,7 @@ const Test: React.FC = () => {
                     <LandVedioLayout
                         onPress={() => setIsVideoInfo(!isVideoInfo)}
                         activeOpacity={1}>
-                        {/* <VideoCover /> */}
+                        <VideoCover />
                     </LandVedioLayout>
                     <GiftBox
                         isVisible={isGiftBox}
