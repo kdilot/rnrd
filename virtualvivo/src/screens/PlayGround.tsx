@@ -85,6 +85,7 @@ const VedioLayout = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     z-index: 1;
+    background: black;
 `;
 
 const MessageLayout = styled.View`
