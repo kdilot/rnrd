@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">socialLogin</string>
+    <string name="kakao_app_key">d0160212f112cf0f22ee31d628fba707</string>
+</resources>
