@@ -1,66 +1,88 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 import { ButtonComponent } from '@components';
-import KaKaoAuth from '../auth/KakaoAuth';
-import FacebookAuth from '../auth/FacebookAuth';
+import { KaKaoAuth, FacebookAuth, GoogleAuth } from '@auth';
 import auth from '@react-native-firebase/auth';
 
 const HomeScreen: React.FC = () => {
+    const [user, setUser] = useState('');
     const [accessMsg, setAccessMsg] = useState<string>('');
     const [errorMsg, setErrorMsg] = useState<string>('');
     const kakaoLogin = () => {
+        setErrorMsg('');
         KaKaoAuth().then((res: any) =>
             res.token ? setAccessMsg(res.token) : setErrorMsg(res.error),
         );
     };
     const facebookLogin = () => {
-        FacebookAuth().then(() => console.log('Signed in with Facebook!'));
+        setErrorMsg('');
+        FacebookAuth().then((res: any) => console.log(auth().currentUser));
+    };
+    const googleLogin = () => {
+        setErrorMsg('');
+        GoogleAuth()
+            .then((res: any) => console.log(auth().currentUser))
+            .catch((e) => setErrorMsg('Error'));
     };
 
-    // useEffect(() => {
-    //     auth()
-    //         .createUserWithEmailAndPassword(
-    //             'richard@tliz.co.kr',
-    //             'SuperSecretPassword!123',
-    //         )
-    //         .then(() => {
-    //             console.log('User account created & signed in!');
-    //         })
-    //         .catch((error) => {
-    //             if (error.code === 'auth/email-already-in-use') {
-    //                 console.log('That email address is already in use!');
-    //             }
-
-    //             if (error.code === 'auth/invalid-email') {
-    //                 console.log('That email address is invalid!');
-    //             }
-
-    //             console.error(error);
-    //         });
-    // }, []);
+    const onSignOut = () => {
+        auth()
+            .signOut()
+            .then((res) => {
+                setUser('');
+            })
+            .catch((error) => {
+                setErrorMsg(error);
+            });
+    };
 
     return (
-        <View
-            style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center',
-            }}>
-            <View style={styles.groupButton}>
-                <ButtonComponent
-                    value={'Kakao Social Login'}
-                    color={'#ffcd00'}
-                    onPress={() => kakaoLogin()}
-                />
-                <Button
-                    title="Facebook Sign-In"
-                    onPress={() => facebookLogin()}
-                />
+        <View style={styles.Container}>
+            <View style={styles.ButtonLayout}>
+                {user ? (
+                    <View style={styles.ButtonContainer}>
+                        <ButtonComponent
+                            value={'SIGN OUT'}
+                            color={'black'}
+                            onPress={() => onSignOut()}
+                        />
+                    </View>
+                ) : (
+                    <>
+                        <View style={styles.ButtonContainer}>
+                            <ButtonComponent
+                                value={'KAKAO'}
+                                color={'#ffcd00'}
+                                onPress={() => kakaoLogin()}
+                            />
+                            <View style={{ padding: 5 }} />
+                            {/* <ButtonComponent
+                                value={'GOOGLE'}
+                                color={'#d93025'}
+                                onPress={() => googleLogin()}
+                            /> */}
+                            <View style={{ padding: 5 }} />
+                            <ButtonComponent
+                                value={'FACEBOOK'}
+                                color={'#4267b2'}
+                                onPress={() => facebookLogin()}
+                            />
+                        </View>
+                    </>
+                )}
                 <View>
                     <Text>{accessMsg}</Text>
                 </View>
-                <View>
-                    <Text>{errorMsg}</Text>
+                <View
+                    style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                    <Text>
+                        {errorMsg && `ERROR : ${errorMsg}`}
+                        {accessMsg && `USER : ${accessMsg}`}
+                    </Text>
                 </View>
             </View>
         </View>
@@ -68,16 +90,18 @@ const HomeScreen: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-    containerView: {
-        margin: 10,
-    },
-    groupButton: {
-        margin: 5,
-    },
-    iconView: {
-        margin: 10,
-        alignItems: 'center',
+    Container: {
+        flex: 1,
+        paddingHorizontal: 10,
         justifyContent: 'center',
+    },
+    ButtonContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    ButtonLayout: {
+        margin: 5,
     },
 });
 
