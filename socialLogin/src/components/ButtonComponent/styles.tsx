@@ -14,7 +14,7 @@ interface Styles {
 export default StyleSheet.create<Styles>({
     ContainerView: (color: string, radius: number) => ({
         width: '100%',
-        padding: 15,
+        padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: color,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { ButtonComponent } from '@components';
 import { KaKaoAuth, FacebookAuth, GoogleAuth, PhoneAuth } from '@auth';
@@ -175,7 +175,7 @@ const HomeScreen: React.FC = () => {
                 )}
                 {!user && (
                     <View style={S.ErrorLayout}>
-                        <Text>{errorMsg && `ERROR : ${errorMsg}`}</Text>
+                        <Text>{errorMsg && `Message : ${errorMsg}`}</Text>
                     </View>
                 )}
             </View>
