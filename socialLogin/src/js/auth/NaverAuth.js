@@ -9,7 +9,6 @@ const androidKeys = {
 const NaverSignIn = () => {
     return new Promise((resolve, reject) => {
         NaverLogin.login(androidKeys, (err, token) => {
-            console.log(`\n\n  Token is fetched  :: ${token} \n\n`);
             if (err) {
                 reject(err);
                 return;
