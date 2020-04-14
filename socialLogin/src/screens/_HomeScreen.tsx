@@ -33,7 +33,7 @@ const HomeScreen: React.FC = () => {
                 .then((res: any) =>
                     res.accessToken
                         ? setUser({ uid: res.accessToken, platform: 'kakao' })
-                        : console.log(res),
+                        : setErrorMsg('kakao error'),
                 )
                 .catch(() => setErrorMsg('kakao error'));
             return;
@@ -44,7 +44,7 @@ const HomeScreen: React.FC = () => {
                 .then((res: any) =>
                     res.accessToken
                         ? setUser({ uid: res.accessToken, platform: 'naver' })
-                        : console.log(res),
+                        : setErrorMsg('naver error'),
                 )
                 .catch(() => setErrorMsg('naver error'));
             return;

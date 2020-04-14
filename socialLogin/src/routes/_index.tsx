@@ -17,7 +17,10 @@ const Routes: React.FC = () => {
                 <NavigationContainer>
                     <Stack.Navigator
                         screenOptions={{ headerTitleAlign: 'center' }}>
-                        <Stack.Screen name="Home" component={HomeScreen} />
+                        <Stack.Screen
+                            name="Social Login"
+                            component={HomeScreen}
+                        />
                     </Stack.Navigator>
                 </NavigationContainer>
             </SafeAreaView>
