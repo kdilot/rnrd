@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import KakaoLogins from '@react-native-seoul/kakao-login';
 
-const KakaoLogin = async () => {
+const KakaoSignIn = async () => {
     return await KakaoLogins.login()
         .then((res) => {
             const kakaoCredential = auth.OAuthProvider.credential(
@@ -22,8 +22,8 @@ const KakaoLogin = async () => {
         });
 };
 
-export const KakaoLogout = async () => {
+export const KakaoSignOut = async () => {
     return await KakaoLogins.logout();
 };
 
-export default KakaoLogin;
+export default KakaoSignIn;

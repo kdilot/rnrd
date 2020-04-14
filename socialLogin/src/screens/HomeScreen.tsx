@@ -1,30 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, TextInput } from 'react-native';
 import { ButtonComponent } from '@components';
-import { KaKaoAuth, FacebookAuth, GoogleAuth, PhoneAuth } from '@auth';
-import { KakaoLogout } from '../auth/KakaoAuth';
+import {
+    KaKaoAuth,
+    FacebookAuth,
+    GoogleAuth,
+    PhoneAuth,
+    NaverAuth,
+    AnonymousAuth,
+} from '@auth';
+import { KakaoSignOut } from '../auth/KakaoAuth';
+import { NaverSignOut } from '../auth/NaverAuth';
 import auth from '@react-native-firebase/auth';
-import { TextInput } from 'react-native-gesture-handler';
-import Anonymous from 'src/auth/AnonymousAuth';
+
+interface UserProps {
+    uid: string;
+    platform: string;
+}
 
 const HomeScreen: React.FC = () => {
-    const [user, setUser] = useState<any>('');
-    const [errorMsg, setErrorMsg] = useState<string>('');
-    const [confirm, setConfirm] = useState(null);
-    const [code, setCode] = useState('');
+    const [user, setUser] = useState<UserProps | null>(null); // 유저정보
+    const [errorMsg, setErrorMsg] = useState<string>(''); //  에러메시지
+    const [confirm, setConfirm] = useState(null); //  전화번호 인증
+    const [code, setCode] = useState(''); // 전화번호 코드
 
     const onSignIn = (platform: string) => {
         // 각 소셜별 로그인 처리
         setErrorMsg('');
         if (platform === 'kakao') {
-            KaKaoAuth().then((res: any) =>
-                res.accessToken
-                    ? setUser({ uid: res.accessToken, platform: 'kakao' })
-                    : console.log(res),
-            );
+            //  카카오
+            KaKaoAuth()
+                .then((res: any) =>
+                    res.accessToken
+                        ? setUser({ uid: res.accessToken, platform: 'kakao' })
+                        : console.log(res),
+                )
+                .catch(() => setErrorMsg('kakao error'));
+            return;
+        }
+        if (platform === 'naver') {
+            //  네이버
+            NaverAuth()
+                .then((res: any) =>
+                    res.accessToken
+                        ? setUser({ uid: res.accessToken, platform: 'naver' })
+                        : console.log(res),
+                )
+                .catch(() => setErrorMsg('naver error'));
             return;
         }
         if (platform === 'facebook') {
+            //  페이스북
             FacebookAuth()
                 .then(() =>
                     setUser({
@@ -36,6 +62,7 @@ const HomeScreen: React.FC = () => {
             return;
         }
         if (platform === 'google') {
+            //  구글
             GoogleAuth()
                 .then(() =>
                     setUser({
@@ -47,7 +74,8 @@ const HomeScreen: React.FC = () => {
             return;
         }
         if (platform === 'anonymous') {
-            Anonymous()
+            //  익명
+            AnonymousAuth()
                 .then(() =>
                     setUser({
                         uid: auth().currentUser.uid,
@@ -58,6 +86,7 @@ const HomeScreen: React.FC = () => {
             return;
         }
         if (platform === 'phone') {
+            //  전화번호
             PhoneAuth()
                 .then((res: any) => setConfirm(res))
                 .catch(() => setErrorMsg('Phone Error'));
@@ -66,23 +95,25 @@ const HomeScreen: React.FC = () => {
     };
 
     const onSignOut = () => {
-        // 로그아웃 카카오만 별도 처리
+        // 로그아웃 카카오, 네이버 별도 처리
         setConfirm(null);
         setCode('');
         setErrorMsg('');
         if (user) {
             user.platform === 'kakao'
-                ? KakaoLogout()
+                ? KakaoSignOut()
                       .then(() => {
-                          setUser('');
+                          setUser(null);
                       })
                       .catch((error) => {
                           setErrorMsg(error);
                       })
+                : user.platform === 'naver'
+                ? (NaverSignOut(), setUser(null))
                 : auth()
                       .signOut()
                       .then(() => {
-                          setUser('');
+                          setUser(null);
                       })
                       .catch((error) => {
                           setErrorMsg(error);
@@ -123,10 +154,7 @@ const HomeScreen: React.FC = () => {
                             {confirm ? (
                                 <>
                                     <TextInput
-                                        style={{
-                                            width: '100%',
-                                            backgroundColor: 'lightyellow',
-                                        }}
+                                        style={S.InputStyle}
                                         value={code}
                                         onChangeText={(text) => setCode(text)}
                                     />
@@ -143,6 +171,12 @@ const HomeScreen: React.FC = () => {
                                         value={'KAKAO'}
                                         color={'#ffcd00'}
                                         onPress={() => onSignIn('kakao')}
+                                    />
+                                    <View style={S.SplitLayout} />
+                                    <ButtonComponent
+                                        value={'NAVER'}
+                                        color={'#3ec729'}
+                                        onPress={() => onSignIn('naver')}
                                     />
                                     <View style={S.SplitLayout} />
                                     <ButtonComponent
@@ -208,6 +242,12 @@ const S = StyleSheet.create({
     },
     SplitLayout: {
         padding: 5,
+    },
+    InputStyle: {
+        width: '100%',
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 4,
     },
 });
 

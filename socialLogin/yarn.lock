@@ -1131,6 +1131,13 @@
   dependencies:
     dooboolab-welcome "^1.1.0"
 
+"@react-native-seoul/naver-login@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@react-native-seoul/naver-login/-/naver-login-2.1.0.tgz#2bcbd1fe9b8d3e0a69545c142d6d9bccd88571b0"
+  integrity sha512-EqoXHcUFEHQKH+aYDEdABPWsC+nIAebZBXWwDffF1H8wtmsrN/nmJCOUfhiTcxZu5iKAskf3UEweK2M4a8ROWA==
+  dependencies:
+    dooboolab-welcome "^1.1.1"
+
 "@react-navigation/core@^5.3.3":
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-5.3.3.tgz#0e8f174193ac10a163b74c68a5ea83a507908db9"
@@ -2458,7 +2465,7 @@ domexception@^1.0.1:
   dependencies:
     webidl-conversions "^4.0.2"
 
-dooboolab-welcome@^1.1.0:
+dooboolab-welcome@^1.1.0, dooboolab-welcome@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/dooboolab-welcome/-/dooboolab-welcome-1.1.1.tgz#ca2184f6e1f568865d707a6ce3bda7e003550f54"
   integrity sha512-tQ/9NBCGnalHwKOBjDqTD4t4wQpDfSSbxQGctzkzaLHR3AhN0wCBkIs05JciVtvl/jfLZ+DgAndktAMk3Bu7Vw==
