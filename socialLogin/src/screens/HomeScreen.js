@@ -3,11 +3,11 @@ import {
     Text,
     View,
     StyleSheet,
-    TextInput,
     Keyboard,
     Alert,
     ImageBackground,
     Dimensions,
+    Image,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ButtonComponent, TabComponent } from '../js/components';
@@ -21,8 +21,10 @@ import {
     EmailAuth,
 } from '../js/auth';
 import { EmailSignUp } from '../js/auth/EmailAuth';
-import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
+import { Input, Tab, TabView } from '@ui-kitten/components';
+import auth from '@react-native-firebase/auth';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const HomeScreen = () => {
     const [errorMsg, setErrorMsg] = useState(''); //  에러메시지
@@ -32,6 +34,7 @@ const HomeScreen = () => {
     const [emailAddress, setEmailAddress] = useState('');
     const [emailPassword, setEmailPassword] = useState('');
     const [emailConfirmPassword, setEmailConfirmPassword] = useState('');
+    const [isPasswordSecure, setIsPasswordSecure] = useState(true);
     const [type, setType] = useState(0);
     const navigation = useNavigation();
 
@@ -201,53 +204,66 @@ const HomeScreen = () => {
             <View style={S.Container}>
                 <View style={S.LogoContainer}></View>
                 <View style={S.InputContainer}>
-                    <TabComponent type={type} onClick={(e) => onType(e)} />
-                    <View>
-                        {confirm && type === 1 ? (
+                    <TabView
+                        tabBarStyle={{
+                            backgroundColor: 'transparent',
+                        }}
+                        indicatorStyle={{
+                            backgroundColor: '#fff',
+                        }}
+                        shouldLoadComponent={(index) => index === type}
+                        selectedIndex={type}
+                        onSelect={(index) => onType(index)}>
+                        <Tab
+                            title={() => <Text style={S.TabText}>E-MAIL</Text>}>
                             <>
-                                <TextInput
-                                    style={S.InputStyle}
-                                    value={code}
-                                    placeholder={'Code : ******'}
-                                    secureTextEntry={true}
-                                    keyboardType={'numeric'}
-                                    placeholderTextColor={
-                                        'rgba(255,255,255,0.8)'
-                                    }
-                                    onChangeText={(text) => setCode(text)}
-                                />
                                 <View style={S.SplitLayout} />
-                                <ButtonComponent
-                                    value={'CODE : 180601'}
-                                    color={'#fff'}
-                                    disabled={code ? false : true}
-                                    textStyle={{ color: '#000' }}
-                                    onPress={() => confirmCode()}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <TextInput
+                                <Input
                                     style={S.InputStyle}
                                     value={emailAddress}
-                                    placeholder={'Email'}
+                                    label={() => (
+                                        <Text style={S.InputLabelStyle}>
+                                            E-mail
+                                        </Text>
+                                    )}
+                                    placeholder={'vivoplay@vivolab.tv'}
                                     keyboardType={'email-address'}
-                                    placeholderTextColor={
-                                        'rgba(255,255,255,0.8)'
-                                    }
                                     onChangeText={(text) =>
                                         setEmailAddress(text)
                                     }
                                 />
                                 <View style={S.SplitLayout} />
-                                <TextInput
+                                <Input
                                     style={S.InputStyle}
                                     value={emailPassword}
-                                    placeholder={'Password'}
-                                    secureTextEntry={true}
-                                    placeholderTextColor={
-                                        'rgba(255,255,255,0.8)'
-                                    }
+                                    label={() => (
+                                        <Text style={S.InputLabelStyle}>
+                                            Password
+                                        </Text>
+                                    )}
+                                    placeholder={'********'}
+                                    secureTextEntry={isPasswordSecure}
+                                    accessoryRight={() => (
+                                        <TouchableWithoutFeedback
+                                            onPress={() =>
+                                                setIsPasswordSecure(
+                                                    !isPasswordSecure,
+                                                )
+                                            }>
+                                            <Image
+                                                style={{
+                                                    width: 25,
+                                                    height: 25,
+                                                }}
+                                                resizeMode="cover"
+                                                source={
+                                                    isPasswordSecure
+                                                        ? require(`../assets/images/eye-outline.png`)
+                                                        : require(`../assets/images/eye-off-outline.png`)
+                                                }
+                                            />
+                                        </TouchableWithoutFeedback>
+                                    )}
                                     onChangeText={(text) =>
                                         setEmailPassword(text)
                                     }
@@ -255,14 +271,37 @@ const HomeScreen = () => {
                                 {isEmailSignUp && (
                                     <>
                                         <View style={S.SplitLayout} />
-                                        <TextInput
+                                        <Input
                                             style={S.InputStyle}
                                             value={emailConfirmPassword}
-                                            placeholder={'Confirm Password'}
-                                            secureTextEntry={true}
-                                            placeholderTextColor={
-                                                'rgba(255,255,255,0.8)'
-                                            }
+                                            label={() => (
+                                                <Text style={S.InputLabelStyle}>
+                                                    Confirm Password
+                                                </Text>
+                                            )}
+                                            placeholder={'********'}
+                                            secureTextEntry={isPasswordSecure}
+                                            accessoryRight={() => (
+                                                <TouchableWithoutFeedback
+                                                    onPress={() =>
+                                                        setIsPasswordSecure(
+                                                            !isPasswordSecure,
+                                                        )
+                                                    }>
+                                                    <Image
+                                                        style={{
+                                                            width: 25,
+                                                            height: 25,
+                                                        }}
+                                                        resizeMode="cover"
+                                                        source={
+                                                            isPasswordSecure
+                                                                ? require(`../assets/images/eye-outline.png`)
+                                                                : require(`../assets/images/eye-off-outline.png`)
+                                                        }
+                                                    />
+                                                </TouchableWithoutFeedback>
+                                            )}
                                             onChangeText={(text) =>
                                                 setEmailConfirmPassword(text)
                                             }
@@ -330,8 +369,33 @@ const HomeScreen = () => {
                                     )}
                                 </View>
                             </>
-                        )}
-                    </View>
+                        </Tab>
+                        <Tab title={() => <Text style={S.TabText}>SMS</Text>}>
+                            <>
+                                <View style={S.SplitLayout} />
+                                <Input
+                                    style={S.InputStyle}
+                                    value={code}
+                                    label={() => (
+                                        <Text style={S.InputLabelStyle}>
+                                            Code
+                                        </Text>
+                                    )}
+                                    placeholder={'180601'}
+                                    keyboardType={'numeric'}
+                                    onChangeText={(text) => setCode(text)}
+                                />
+                                <View style={S.SplitLayout} />
+                                <ButtonComponent
+                                    value={'CODE : 180601'}
+                                    color={'#fff'}
+                                    disabled={code ? false : true}
+                                    textStyle={{ color: '#000' }}
+                                    onPress={() => confirmCode()}
+                                />
+                            </>
+                        </Tab>
+                    </TabView>
                     <View style={S.ErrorLayout}>
                         <Text style={{ color: 'white', fontSize: 16 }}>
                             {errorMsg && `Message : ${errorMsg}`}
@@ -437,12 +501,17 @@ const S = StyleSheet.create({
         padding: 5,
     },
     InputStyle: {
-        width: '100%',
-        borderColor: 'white',
-        borderWidth: 1,
-        borderRadius: 4,
-        color: 'white',
-        paddingHorizontal: 10,
+        borderColor: 'transparent',
+    },
+    InputLabelStyle: {
+        color: '#fff',
+        paddingBottom: 5,
+        fontSize: 13,
+    },
+    TabText: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
 
