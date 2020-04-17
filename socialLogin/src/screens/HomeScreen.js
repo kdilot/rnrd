@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, TextInput } from 'react-native';
+import {
+    Text,
+    View,
+    StyleSheet,
+    TextInput,
+    Keyboard,
+    Alert,
+} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { ButtonComponent } from '../js/components';
+import { ButtonComponent, TabComponent } from '../js/components';
 import {
     KaKaoAuth,
     FacebookAuth,
@@ -9,7 +16,9 @@ import {
     PhoneAuth,
     NaverAuth,
     AnonymousAuth,
+    EmailAuth,
 } from '../js/auth';
+import { EmailSignUp } from '../js/auth/EmailAuth';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/native';
 
@@ -17,7 +26,17 @@ const HomeScreen = () => {
     const [errorMsg, setErrorMsg] = useState(''); //  에러메시지
     const [confirm, setConfirm] = useState(null); //  전화번호 인증
     const [code, setCode] = useState(''); // 전화번호 코드
+    const [isEmailSignUp, setIsEmailSignUp] = useState(false);
+    const [emailAddress, setEmailAddress] = useState('');
+    const [emailPassword, setEmailPassword] = useState('');
+    const [emailConfirmPassword, setEmailConfirmPassword] = useState('');
+    const [type, setType] = useState(0);
     const navigation = useNavigation();
+
+    const onType = (type) => {
+        setType(type);
+        setErrorMsg('');
+    };
 
     const onSignIn = (platform) => {
         // 각 소셜별 로그인 처리
@@ -81,12 +100,44 @@ const HomeScreen = () => {
                 .then((res) => setConfirm(res))
                 .catch(() => setErrorMsg('Phone Error'));
         }
-    };
-
-    const onUser = async (user) => {
-        await AsyncStorage.setItem('user', JSON.stringify(user)).then(() => {
-            navigation.replace('Main');
-        });
+        if (platform === 'email') {
+            //  이메일
+            if ((emailAddress, emailPassword)) {
+                if (isEmailSignUp) {
+                    // 이메일 회원가입
+                    if (
+                        !emailPassword.trim() ||
+                        emailPassword !== emailConfirmPassword
+                    ) {
+                        Alert.alert('비밀번호를 확인해주세요.');
+                        return;
+                    }
+                    EmailSignUp(emailAddress, emailPassword)
+                        .then((res) =>
+                            res.rs === true
+                                ? (setErrorMsg(res.msg),
+                                  onPressSignButton(false))
+                                : setErrorMsg(res.error),
+                        )
+                        .catch((e) => setErrorMsg(e));
+                } else {
+                    // 이메일 로그인
+                    EmailAuth(emailAddress, emailPassword)
+                        .then((res) =>
+                            res.uid
+                                ? onUser({
+                                      uid: auth().currentUser.uid,
+                                      platform: 'email',
+                                  })
+                                : setErrorMsg(res.error),
+                        )
+                        .catch((e) => setErrorMsg(e));
+                }
+                Keyboard.dismiss();
+            } else {
+                Alert.alert('입력 값을 확인해주세요.');
+            }
+        }
     };
 
     const confirmCode = async () => {
@@ -101,72 +152,185 @@ const HomeScreen = () => {
         } catch (error) {
             setErrorMsg('Invalid code.');
         }
+        Keyboard.dismiss();
     };
+
+    const onUser = async (user) => {
+        // User 정보 저장
+        await AsyncStorage.setItem('user', JSON.stringify(user)).then(() => {
+            navigation.replace('Main');
+        });
+    };
+
+    const onPressSignButton = (type) => {
+        // 이메일 가입 / 로그인 타입
+        setEmailAddress('');
+        setEmailPassword('');
+        setEmailConfirmPassword('');
+        setIsEmailSignUp(type);
+    };
+
+    useEffect(() => {
+        if (type === 1 && !confirm) {
+            onSignIn('phone');
+        }
+    }, [type]);
 
     return (
         <View style={S.Container}>
-            <View style={S.ButtonLayout}>
-                <>
-                    <View style={S.ButtonContainer}>
-                        {confirm ? (
-                            <>
-                                <TextInput
-                                    style={S.InputStyle}
-                                    value={code}
-                                    onChangeText={(text) => setCode(text)}
-                                />
-                                <View style={S.SplitLayout} />
-                                <ButtonComponent
-                                    value={'Confirm Code : 180601'}
-                                    color={'#8e9092'}
-                                    onPress={() => confirmCode()}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <ButtonComponent
-                                    value={'KAKAO'}
-                                    color={'#ffcd00'}
-                                    onPress={() => onSignIn('kakao')}
-                                />
-                                <View style={S.SplitLayout} />
-                                <ButtonComponent
-                                    value={'NAVER'}
-                                    color={'#3ec729'}
-                                    onPress={() => onSignIn('naver')}
-                                />
-                                <View style={S.SplitLayout} />
-                                <ButtonComponent
-                                    value={'GOOGLE'}
-                                    color={'#d93025'}
-                                    onPress={() => onSignIn('google')}
-                                />
-                                <View style={S.SplitLayout} />
-                                <ButtonComponent
-                                    value={'FACEBOOK'}
-                                    color={'#4267b2'}
-                                    onPress={() => onSignIn('facebook')}
-                                />
-                                <View style={S.SplitLayout} />
-                                <ButtonComponent
-                                    value={'PHONE'}
-                                    color={'#8e9092'}
-                                    onPress={() => onSignIn('phone')}
-                                />
-                                <View style={S.SplitLayout} />
-                                <ButtonComponent
-                                    value={'ANONYMOUS'}
-                                    color={'#262626'}
-                                    onPress={() => onSignIn('anonymous')}
-                                />
-                            </>
-                        )}
-                    </View>
-                    <View style={S.ErrorLayout}>
-                        <Text>{errorMsg && `Message : ${errorMsg}`}</Text>
-                    </View>
-                </>
+            <View style={S.LogoContainer}>
+                <Text style={S.LogoText}>VIVO Play</Text>
             </View>
+            <View style={S.InputContainer}>
+                <TabComponent type={type} onClick={(e) => onType(e)} />
+                <View>
+                    {confirm && type === 1 ? (
+                        <>
+                            <TextInput
+                                style={S.InputStyle}
+                                value={code}
+                                placeholder={'Code : ******'}
+                                secureTextEntry={true}
+                                keyboardType={'numeric'}
+                                onChangeText={(text) => setCode(text)}
+                            />
+                            <View style={S.SplitLayout} />
+                            <ButtonComponent
+                                value={'CODE : 180601'}
+                                color={'#000'}
+                                disabled={code ? false : true}
+                                onPress={() => confirmCode()}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <TextInput
+                                style={S.InputStyle}
+                                value={emailAddress}
+                                placeholder={'Email'}
+                                keyboardType={'email-address'}
+                                onChangeText={(text) => setEmailAddress(text)}
+                            />
+                            <View style={S.SplitLayout} />
+                            <TextInput
+                                style={S.InputStyle}
+                                value={emailPassword}
+                                placeholder={'Password'}
+                                secureTextEntry={true}
+                                onChangeText={(text) => setEmailPassword(text)}
+                            />
+                            {isEmailSignUp && (
+                                <>
+                                    <View style={S.SplitLayout} />
+                                    <TextInput
+                                        style={S.InputStyle}
+                                        value={emailConfirmPassword}
+                                        placeholder={'Confirm Password'}
+                                        secureTextEntry={true}
+                                        onChangeText={(text) =>
+                                            setEmailConfirmPassword(text)
+                                        }
+                                    />
+                                </>
+                            )}
+                            <View style={S.SplitLayout} />
+                            <View style={S.EmailButtonGroup}>
+                                {isEmailSignUp ? (
+                                    <>
+                                        <ButtonComponent
+                                            value={'Sign In'}
+                                            color={'#000'}
+                                            outline={true}
+                                            onPress={() =>
+                                                onPressSignButton(false)
+                                            }
+                                            conatinerStyle={{ flex: 1 }}
+                                        />
+                                        <View style={S.SplitLayout} />
+                                        <ButtonComponent
+                                            value={'Sign Up'}
+                                            color={'#000'}
+                                            disabled={
+                                                emailAddress && emailPassword
+                                                    ? false
+                                                    : true
+                                            }
+                                            onPress={() => onSignIn('email')}
+                                            conatinerStyle={{ flex: 1 }}
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+                                        <ButtonComponent
+                                            value={'Sign Up'}
+                                            color={'#000'}
+                                            outline={true}
+                                            onPress={() =>
+                                                onPressSignButton(true)
+                                            }
+                                            conatinerStyle={{ flex: 1 }}
+                                        />
+                                        <View style={S.SplitLayout} />
+                                        <ButtonComponent
+                                            value={'Sign In'}
+                                            color={'#000'}
+                                            disabled={
+                                                emailAddress && emailPassword
+                                                    ? false
+                                                    : true
+                                            }
+                                            onPress={() => onSignIn('email')}
+                                            conatinerStyle={{ flex: 1 }}
+                                        />
+                                    </>
+                                )}
+                            </View>
+                        </>
+                    )}
+                </View>
+                <View style={S.ErrorLayout}>
+                    <Text style={{ color: 'rgba(255,0,0,0.7)' }}>
+                        {errorMsg && `Message : ${errorMsg}`}
+                    </Text>
+                </View>
+            </View>
+            <View style={S.ButtonContainer}>
+                <View style={S.ButtonSplit}>
+                    <ButtonComponent
+                        value={'KAKAO'}
+                        color={'#ffcd00'}
+                        onPress={() => onSignIn('kakao')}
+                        conatinerStyle={[S.Button, { width: 100 }]}
+                    />
+                    <ButtonComponent
+                        value={'NAVER'}
+                        color={'#3ec729'}
+                        onPress={() => onSignIn('naver')}
+                        conatinerStyle={[S.Button, { width: 100 }]}
+                    />
+                </View>
+                <View style={S.ButtonSplit}>
+                    <ButtonComponent
+                        value={'G'}
+                        color={'#d93025'}
+                        onPress={() => onSignIn('google')}
+                        conatinerStyle={S.Button}
+                    />
+                    <ButtonComponent
+                        value={'F'}
+                        color={'#4267b2'}
+                        onPress={() => onSignIn('facebook')}
+                        conatinerStyle={S.Button}
+                    />
+                    <ButtonComponent
+                        value={'A'}
+                        color={'#262626'}
+                        onPress={() => onSignIn('anonymous')}
+                        conatinerStyle={S.Button}
+                    />
+                </View>
+            </View>
+            <View style={{ flex: 1 }} />
         </View>
     );
 };
@@ -174,19 +338,42 @@ const HomeScreen = () => {
 const S = StyleSheet.create({
     Container: {
         flex: 1,
-        paddingHorizontal: 10,
+        paddingHorizontal: 20,
+        justifyContent: 'space-between',
+    },
+    LogoContainer: {
+        height: 200,
         justifyContent: 'center',
+        alignContent: 'center',
+    },
+    LogoText: {
+        textAlign: 'center',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    InputContainer: {
+        height: 300,
     },
     ButtonContainer: {
-        display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        height: 130,
+        marginBottom: 10,
     },
-    ButtonLayout: {
-        margin: 5,
-        display: 'flex',
-        justifyContent: 'center',
-        flex: 1,
+    ButtonSplit: {
+        width: '100%',
+        paddingHorizontal: 40,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+    Button: {
+        width: 60,
+        height: 40,
+        margin: 10,
+    },
+    EmailButtonGroup: {
+        flexDirection: 'row',
     },
     ErrorLayout: {
         justifyContent: 'center',

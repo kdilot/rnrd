@@ -15,25 +15,6 @@ const IntroScreen = () => {
                     : navigation.replace('SignIn');
             }, 2000),
         );
-        // auth()
-        //     .signInWithEmailAndPassword(
-        //         'richard@tliz.co.kr',
-        //         'SuperSecretPassword!',
-        //     )
-        //     .then((e) => {
-        //         console.log(e);
-        //     })
-        //     .catch((error) => {
-        //         if (error.code === 'auth/email-already-in-use') {
-        //             console.log('That email address is already in use!');
-        //         }
-
-        //         if (error.code === 'auth/invalid-email') {
-        //             console.log('That email address is invalid!');
-        //         }
-
-        //         console.log(error);
-        //     });
     }, []);
 
     return (

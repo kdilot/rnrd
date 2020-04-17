@@ -1,0 +1,35 @@
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
+const TabComponent = ({ type, onClick }) => {
+    return (
+        <View style={S.Container}>
+            <TouchableWithoutFeedback onPress={() => onClick(0)}>
+                <Text style={[S.Type, type === 0 && S.Selected]}>Email</Text>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => onClick(1)}>
+                <Text style={[S.Type, type === 1 && S.Selected]}>Phone</Text>
+            </TouchableWithoutFeedback>
+        </View>
+    );
+};
+
+const S = StyleSheet.create({
+    Container: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
+    },
+    Type: {
+        fontSize: 16,
+        borderBottomColor: 'transparent',
+        borderBottomWidth: 3,
+    },
+    Selected: {
+        borderBottomColor: 'black',
+        borderBottomWidth: 3,
+    },
+});
+
+export default TabComponent;
