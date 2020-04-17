@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { ButtonComponent } from '../components';
+import { ButtonComponent } from '../js/components';
 import {
     KaKaoAuth,
     FacebookAuth,
@@ -17,7 +17,6 @@ const HomeScreen = () => {
     const [errorMsg, setErrorMsg] = useState(''); //  에러메시지
     const [confirm, setConfirm] = useState(null); //  전화번호 인증
     const [code, setCode] = useState(''); // 전화번호 코드
-    const [isSignIn, setSignIn] = useState(true);
     const navigation = useNavigation();
 
     const onSignIn = (platform) => {
