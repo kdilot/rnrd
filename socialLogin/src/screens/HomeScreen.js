@@ -6,6 +6,8 @@ import {
     TextInput,
     Keyboard,
     Alert,
+    ImageBackground,
+    Dimensions,
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ButtonComponent, TabComponent } from '../js/components';
@@ -177,161 +179,193 @@ const HomeScreen = () => {
     }, [type]);
 
     return (
-        <View style={S.Container}>
-            <View style={S.LogoContainer}>
-                <Text style={S.LogoText}>VIVO Play</Text>
-            </View>
-            <View style={S.InputContainer}>
-                <TabComponent type={type} onClick={(e) => onType(e)} />
-                <View>
-                    {confirm && type === 1 ? (
-                        <>
-                            <TextInput
-                                style={S.InputStyle}
-                                value={code}
-                                placeholder={'Code : ******'}
-                                secureTextEntry={true}
-                                keyboardType={'numeric'}
-                                onChangeText={(text) => setCode(text)}
-                            />
-                            <View style={S.SplitLayout} />
-                            <ButtonComponent
-                                value={'CODE : 180601'}
-                                color={'#000'}
-                                disabled={code ? false : true}
-                                onPress={() => confirmCode()}
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <TextInput
-                                style={S.InputStyle}
-                                value={emailAddress}
-                                placeholder={'Email'}
-                                keyboardType={'email-address'}
-                                onChangeText={(text) => setEmailAddress(text)}
-                            />
-                            <View style={S.SplitLayout} />
-                            <TextInput
-                                style={S.InputStyle}
-                                value={emailPassword}
-                                placeholder={'Password'}
-                                secureTextEntry={true}
-                                onChangeText={(text) => setEmailPassword(text)}
-                            />
-                            {isEmailSignUp && (
-                                <>
-                                    <View style={S.SplitLayout} />
-                                    <TextInput
-                                        style={S.InputStyle}
-                                        value={emailConfirmPassword}
-                                        placeholder={'Confirm Password'}
-                                        secureTextEntry={true}
-                                        onChangeText={(text) =>
-                                            setEmailConfirmPassword(text)
-                                        }
-                                    />
-                                </>
-                            )}
-                            <View style={S.SplitLayout} />
-                            <View style={S.EmailButtonGroup}>
-                                {isEmailSignUp ? (
+        <ImageBackground
+            style={{
+                width: Dimensions.get('window').width,
+                height: Dimensions.get('window').height,
+            }}
+            source={require('../assets/images/bg.jpeg')}
+            resizeMode="cover" // 'cover', 'contain', 'stretch', 'repeat', 'center' 중 선택
+        >
+            <View style={S.Container}>
+                <View style={S.LogoContainer}></View>
+                <View style={S.InputContainer}>
+                    <TabComponent type={type} onClick={(e) => onType(e)} />
+                    <View>
+                        {confirm && type === 1 ? (
+                            <>
+                                <TextInput
+                                    style={S.InputStyle}
+                                    value={code}
+                                    placeholder={'Code : ******'}
+                                    secureTextEntry={true}
+                                    keyboardType={'numeric'}
+                                    placeholderTextColor={
+                                        'rgba(255,255,255,0.8)'
+                                    }
+                                    onChangeText={(text) => setCode(text)}
+                                />
+                                <View style={S.SplitLayout} />
+                                <ButtonComponent
+                                    value={'CODE : 180601'}
+                                    color={'#fff'}
+                                    disabled={code ? false : true}
+                                    textStyle={{ color: '#000' }}
+                                    onPress={() => confirmCode()}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <TextInput
+                                    style={S.InputStyle}
+                                    value={emailAddress}
+                                    placeholder={'Email'}
+                                    keyboardType={'email-address'}
+                                    placeholderTextColor={
+                                        'rgba(255,255,255,0.8)'
+                                    }
+                                    onChangeText={(text) =>
+                                        setEmailAddress(text)
+                                    }
+                                />
+                                <View style={S.SplitLayout} />
+                                <TextInput
+                                    style={S.InputStyle}
+                                    value={emailPassword}
+                                    placeholder={'Password'}
+                                    secureTextEntry={true}
+                                    placeholderTextColor={
+                                        'rgba(255,255,255,0.8)'
+                                    }
+                                    onChangeText={(text) =>
+                                        setEmailPassword(text)
+                                    }
+                                />
+                                {isEmailSignUp && (
                                     <>
-                                        <ButtonComponent
-                                            value={'Sign In'}
-                                            color={'#000'}
-                                            outline={true}
-                                            onPress={() =>
-                                                onPressSignButton(false)
-                                            }
-                                            conatinerStyle={{ flex: 1 }}
-                                        />
                                         <View style={S.SplitLayout} />
-                                        <ButtonComponent
-                                            value={'Sign Up'}
-                                            color={'#000'}
-                                            disabled={
-                                                emailAddress && emailPassword
-                                                    ? false
-                                                    : true
+                                        <TextInput
+                                            style={S.InputStyle}
+                                            value={emailConfirmPassword}
+                                            placeholder={'Confirm Password'}
+                                            secureTextEntry={true}
+                                            placeholderTextColor={
+                                                'rgba(255,255,255,0.8)'
                                             }
-                                            onPress={() => onSignIn('email')}
-                                            conatinerStyle={{ flex: 1 }}
-                                        />
-                                    </>
-                                ) : (
-                                    <>
-                                        <ButtonComponent
-                                            value={'Sign Up'}
-                                            color={'#000'}
-                                            outline={true}
-                                            onPress={() =>
-                                                onPressSignButton(true)
+                                            onChangeText={(text) =>
+                                                setEmailConfirmPassword(text)
                                             }
-                                            conatinerStyle={{ flex: 1 }}
-                                        />
-                                        <View style={S.SplitLayout} />
-                                        <ButtonComponent
-                                            value={'Sign In'}
-                                            color={'#000'}
-                                            disabled={
-                                                emailAddress && emailPassword
-                                                    ? false
-                                                    : true
-                                            }
-                                            onPress={() => onSignIn('email')}
-                                            conatinerStyle={{ flex: 1 }}
                                         />
                                     </>
                                 )}
-                            </View>
-                        </>
-                    )}
+                                <View style={S.SplitLayout} />
+                                <View style={S.EmailButtonGroup}>
+                                    {isEmailSignUp ? (
+                                        <>
+                                            <ButtonComponent
+                                                value={'Sign In'}
+                                                color={'#fff'}
+                                                outline={true}
+                                                onPress={() =>
+                                                    onPressSignButton(false)
+                                                }
+                                                conatinerStyle={{ flex: 1 }}
+                                            />
+                                            <View style={S.SplitLayout} />
+                                            <ButtonComponent
+                                                value={'Sign Up'}
+                                                color={'#fff'}
+                                                disabled={
+                                                    emailAddress &&
+                                                    emailPassword
+                                                        ? false
+                                                        : true
+                                                }
+                                                onPress={() =>
+                                                    onSignIn('email')
+                                                }
+                                                textStyle={{ color: '#000' }}
+                                                conatinerStyle={{ flex: 1 }}
+                                            />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <ButtonComponent
+                                                value={'Sign Up'}
+                                                color={'#fff'}
+                                                outline={true}
+                                                onPress={() =>
+                                                    onPressSignButton(true)
+                                                }
+                                                conatinerStyle={{ flex: 1 }}
+                                            />
+                                            <View style={S.SplitLayout} />
+                                            <ButtonComponent
+                                                value={'Sign In'}
+                                                color={'#fff'}
+                                                disabled={
+                                                    emailAddress &&
+                                                    emailPassword
+                                                        ? false
+                                                        : true
+                                                }
+                                                onPress={() =>
+                                                    onSignIn('email')
+                                                }
+                                                textStyle={{ color: '#000' }}
+                                                conatinerStyle={{ flex: 1 }}
+                                            />
+                                        </>
+                                    )}
+                                </View>
+                            </>
+                        )}
+                    </View>
+                    <View style={S.ErrorLayout}>
+                        <Text style={{ color: 'rgba(255,0,0,0.7)' }}>
+                            {errorMsg && `Message : ${errorMsg}`}
+                        </Text>
+                    </View>
                 </View>
-                <View style={S.ErrorLayout}>
-                    <Text style={{ color: 'rgba(255,0,0,0.7)' }}>
-                        {errorMsg && `Message : ${errorMsg}`}
-                    </Text>
+                <View style={S.ButtonContainer}>
+                    <View style={S.ButtonSplit}>
+                        <ButtonComponent
+                            value={'KAKAO'}
+                            color={'#ffcd00'}
+                            onPress={() => onSignIn('kakao')}
+                            conatinerStyle={[S.Button, { width: 100 }]}
+                        />
+                        <ButtonComponent
+                            value={'NAVER'}
+                            color={'#3ec729'}
+                            onPress={() => onSignIn('naver')}
+                            conatinerStyle={[S.Button, { width: 100 }]}
+                        />
+                    </View>
+                    <View style={S.ButtonSplit}>
+                        <ButtonComponent
+                            value={'G'}
+                            color={'#d93025'}
+                            onPress={() => onSignIn('google')}
+                            conatinerStyle={S.Button}
+                        />
+                        <ButtonComponent
+                            value={'F'}
+                            color={'#4267b2'}
+                            onPress={() => onSignIn('facebook')}
+                            conatinerStyle={S.Button}
+                        />
+                        <ButtonComponent
+                            value={'A'}
+                            color={'#262626'}
+                            onPress={() => onSignIn('anonymous')}
+                            conatinerStyle={S.Button}
+                        />
+                    </View>
                 </View>
+                <View style={{ flex: 1 }} />
             </View>
-            <View style={S.ButtonContainer}>
-                <View style={S.ButtonSplit}>
-                    <ButtonComponent
-                        value={'KAKAO'}
-                        color={'#ffcd00'}
-                        onPress={() => onSignIn('kakao')}
-                        conatinerStyle={[S.Button, { width: 100 }]}
-                    />
-                    <ButtonComponent
-                        value={'NAVER'}
-                        color={'#3ec729'}
-                        onPress={() => onSignIn('naver')}
-                        conatinerStyle={[S.Button, { width: 100 }]}
-                    />
-                </View>
-                <View style={S.ButtonSplit}>
-                    <ButtonComponent
-                        value={'G'}
-                        color={'#d93025'}
-                        onPress={() => onSignIn('google')}
-                        conatinerStyle={S.Button}
-                    />
-                    <ButtonComponent
-                        value={'F'}
-                        color={'#4267b2'}
-                        onPress={() => onSignIn('facebook')}
-                        conatinerStyle={S.Button}
-                    />
-                    <ButtonComponent
-                        value={'A'}
-                        color={'#262626'}
-                        onPress={() => onSignIn('anonymous')}
-                        conatinerStyle={S.Button}
-                    />
-                </View>
-            </View>
-            <View style={{ flex: 1 }} />
-        </View>
+        </ImageBackground>
     );
 };
 
@@ -348,8 +382,9 @@ const S = StyleSheet.create({
     },
     LogoText: {
         textAlign: 'center',
-        fontSize: 18,
+        fontSize: 25,
         fontWeight: 'bold',
+        color: '#f83296',
     },
     InputContainer: {
         height: 300,
@@ -386,9 +421,11 @@ const S = StyleSheet.create({
     },
     InputStyle: {
         width: '100%',
-        borderColor: 'black',
+        borderColor: 'white',
         borderWidth: 1,
         borderRadius: 4,
+        color: 'white',
+        paddingHorizontal: 10,
     },
 });
 

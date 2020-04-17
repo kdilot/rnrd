@@ -22,12 +22,14 @@ const S = StyleSheet.create({
         padding: 10,
     },
     Type: {
-        fontSize: 16,
+        fontSize: 18,
+        fontWeight: 'bold',
         borderBottomColor: 'transparent',
         borderBottomWidth: 3,
+        color: 'white',
     },
     Selected: {
-        borderBottomColor: 'black',
+        borderBottomColor: 'white',
         borderBottomWidth: 3,
     },
 });
