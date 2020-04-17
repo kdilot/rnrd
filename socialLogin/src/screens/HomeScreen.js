@@ -36,6 +36,7 @@ const HomeScreen = () => {
     const navigation = useNavigation();
 
     const onType = (type) => {
+        // 이메일 / SMS 타입
         setType(type);
         setErrorMsg('');
     };
@@ -48,7 +49,13 @@ const HomeScreen = () => {
             KaKaoAuth()
                 .then((res) =>
                     res.accessToken
-                        ? onUser({ uid: res.accessToken, platform: 'kakao' })
+                        ? onUser({
+                              uid: res.accessToken,
+                              platform: 'kakao',
+                              expireDate:
+                                  new Date(res.accessTokenExpiresAt).getTime() /
+                                  1000,
+                          })
                         : setErrorMsg('kakao error'),
                 )
                 .catch(() => setErrorMsg('kakao error'));
@@ -58,7 +65,11 @@ const HomeScreen = () => {
             NaverAuth()
                 .then((res) =>
                     res.accessToken
-                        ? onUser({ uid: res.accessToken, platform: 'naver' })
+                        ? onUser({
+                              uid: res.accessToken,
+                              platform: 'naver',
+                              expireDate: res.expiresAt,
+                          })
                         : setErrorMsg('naver error'),
                 )
                 .catch(() => setErrorMsg('naver error'));
@@ -184,7 +195,7 @@ const HomeScreen = () => {
                 width: Dimensions.get('window').width,
                 height: Dimensions.get('window').height,
             }}
-            source={require('../assets/images/bg.jpeg')}
+            source={require('../assets/images/bg2.jpeg')}
             resizeMode="cover" // 'cover', 'contain', 'stretch', 'repeat', 'center' 중 선택
         >
             <View style={S.Container}>
@@ -322,48 +333,53 @@ const HomeScreen = () => {
                         )}
                     </View>
                     <View style={S.ErrorLayout}>
-                        <Text style={{ color: 'rgba(255,0,0,0.7)' }}>
+                        <Text style={{ color: 'white', fontSize: 16 }}>
                             {errorMsg && `Message : ${errorMsg}`}
                         </Text>
                     </View>
                 </View>
+                <View style={{ flex: 1 }} />
                 <View style={S.ButtonContainer}>
                     <View style={S.ButtonSplit}>
                         <ButtonComponent
                             value={'KAKAO'}
                             color={'#ffcd00'}
+                            outline={true}
                             onPress={() => onSignIn('kakao')}
-                            conatinerStyle={[S.Button, { width: 100 }]}
+                            conatinerStyle={[S.Button, { width: 150 }]}
                         />
                         <ButtonComponent
                             value={'NAVER'}
                             color={'#3ec729'}
+                            outline={true}
                             onPress={() => onSignIn('naver')}
-                            conatinerStyle={[S.Button, { width: 100 }]}
+                            conatinerStyle={[S.Button, { width: 150 }]}
                         />
                     </View>
                     <View style={S.ButtonSplit}>
                         <ButtonComponent
-                            value={'G'}
+                            value={'GOOGLE'}
                             color={'#d93025'}
+                            outline={true}
                             onPress={() => onSignIn('google')}
                             conatinerStyle={S.Button}
                         />
                         <ButtonComponent
-                            value={'F'}
+                            value={'FACEBOOK'}
                             color={'#4267b2'}
+                            outline={true}
                             onPress={() => onSignIn('facebook')}
                             conatinerStyle={S.Button}
                         />
                         <ButtonComponent
-                            value={'A'}
-                            color={'#262626'}
+                            value={'GUEST'}
+                            color={'#000'}
+                            outline={true}
                             onPress={() => onSignIn('anonymous')}
                             conatinerStyle={S.Button}
                         />
                     </View>
                 </View>
-                <View style={{ flex: 1 }} />
             </View>
         </ImageBackground>
     );
@@ -393,19 +409,20 @@ const S = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        height: 130,
+        height: 200,
         marginBottom: 10,
     },
     ButtonSplit: {
         width: '100%',
-        paddingHorizontal: 40,
+        paddingHorizontal: 20,
         flexDirection: 'row',
         justifyContent: 'space-around',
     },
     Button: {
-        width: 60,
+        width: 95,
         height: 40,
         margin: 10,
+        borderWidth: 1.2,
     },
     EmailButtonGroup: {
         flexDirection: 'row',

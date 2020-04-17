@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { ImageBackground, Dimensions } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import auth from '@react-native-firebase/auth';
 
 const IntroScreen = () => {
     const navigation = useNavigation();
@@ -18,23 +17,16 @@ const IntroScreen = () => {
     }, []);
 
     return (
-        <View style={S.Container}>
-            <Text style={S.IntroText}>Intro</Text>
-        </View>
+        <ImageBackground
+            style={{
+                width: Dimensions.get('window').width,
+                height: Dimensions.get('window').height,
+                backgroundColor: '#ef4b80',
+            }}
+            source={require('../assets/images/logo.png')}
+            resizeMode="center" // 'cover', 'contain', 'stretch', 'repeat', 'center' 중 선택
+        ></ImageBackground>
     );
 };
-
-const S = StyleSheet.create({
-    Container: {
-        flex: 1,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    IntroText: {
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-});
 
 export default IntroScreen;

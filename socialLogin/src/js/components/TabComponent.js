@@ -6,10 +6,10 @@ const TabComponent = ({ type, onClick }) => {
     return (
         <View style={S.Container}>
             <TouchableWithoutFeedback onPress={() => onClick(0)}>
-                <Text style={[S.Type, type === 0 && S.Selected]}>Email</Text>
+                <Text style={[S.Type, type === 0 && S.Selected]}>E-MAIL</Text>
             </TouchableWithoutFeedback>
             <TouchableWithoutFeedback onPress={() => onClick(1)}>
-                <Text style={[S.Type, type === 1 && S.Selected]}>Phone</Text>
+                <Text style={[S.Type, type === 1 && S.Selected]}>SMS</Text>
             </TouchableWithoutFeedback>
         </View>
     );

@@ -60,6 +60,7 @@ const MainScreen = () => {
                     <Text style={S.Platform}>Platform : {user.platform}</Text>
                     <View style={S.SplitLayout} />
                     <Text style={S.Uid}>{user.uid}</Text>
+                    <Text style={S.Uid}>{user.expireDate}</Text>
                 </View>
             </View>
         </View>
