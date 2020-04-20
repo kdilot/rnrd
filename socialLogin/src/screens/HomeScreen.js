@@ -456,7 +456,7 @@ const S = StyleSheet.create({
         justifyContent: 'space-between',
     },
     LogoContainer: {
-        height: 200,
+        height: 120,
         justifyContent: 'center',
         alignContent: 'center',
     },
