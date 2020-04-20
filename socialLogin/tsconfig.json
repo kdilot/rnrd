@@ -13,7 +13,8 @@
             "@screens": ["src/screens"], // path
             "@components": ["src/components"], // path
             "@auth": ["src/auth"] // path
-        }
+        },
+        "allowJs": true
     },
     "include": ["src/**/*"]
 }
