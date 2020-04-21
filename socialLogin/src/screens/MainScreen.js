@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import { ButtonComponent } from '../components';
+import { ButtonComponent } from '../js/components';
 import AsyncStorage from '@react-native-community/async-storage';
 import { KakaoSignOut } from '../auth/KakaoAuth';
 import { NaverSignOut } from '../auth/NaverAuth';
@@ -11,6 +11,7 @@ const USER = { uid: null, platform: null };
 
 const MainScreen = () => {
     const [user, setUser] = useState(USER);
+    const [count, setCount] = useState(0);
     const navigation = useNavigation();
 
     const onSignOut = () => {

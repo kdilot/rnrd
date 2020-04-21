@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { HomeScreen, MainScreen, IntroScreen } from '../screens';
+import { HomeScreen, MainScreen, IntroScreen, LiveScreen } from '../screens';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { enableScreens } from 'react-native-screens';
 import * as eva from '@eva-design/eva';
@@ -20,6 +20,11 @@ const Routes = () => {
                         <NavigationContainer>
                             <Stack.Navigator
                                 screenOptions={{ headerTitleAlign: 'center' }}>
+                                <Stack.Screen
+                                    name="Live"
+                                    component={LiveScreen}
+                                    options={{ headerShown: false }}
+                                />
                                 <Stack.Screen
                                     name="Intro"
                                     component={IntroScreen}
