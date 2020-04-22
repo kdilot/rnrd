@@ -11,7 +11,7 @@ import {
     TouchableWithoutFeedback,
 } from 'react-native';
 import FloatingHearts from '../js/components/TakeerFloatingHearts';
-import Test from 'src/js/components/TakeerFloatingHearts/Test';
+import TestButton from 'src/js/components/TakeerFloatingHearts/TestButton';
 
 const LiveScreen = () => {
     const [isOverLay, setIsOverLay] = useState(false);
@@ -19,8 +19,8 @@ const LiveScreen = () => {
 
     return (
         <>
-            {/* <Test /> */}
-            <TouchableOpacity
+            <TestButton />
+            {/* <TouchableOpacity
                 activeOpacity={1}
                 onPress={() => setIsOverLay(!isOverLay)}
                 style={S.Container}>
@@ -123,7 +123,7 @@ const LiveScreen = () => {
                     </View>
                 </>
             )}
-            <FloatingHearts count={count} />
+            <FloatingHearts count={count} /> */}
         </>
     );
 };
