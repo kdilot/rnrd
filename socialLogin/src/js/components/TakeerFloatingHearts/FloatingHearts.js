@@ -17,6 +17,7 @@ class FloatingHearts extends Component {
         return {
             id: index,
             right: getRandomNumber(10, 30),
+            color: colorBook(),
         };
     }
 
@@ -30,9 +31,6 @@ class FloatingHearts extends Component {
         const oldCount = this.props.count;
         const newCount = nextProps.count;
         const numHearts = newCount - oldCount;
-        console.log('old & new ', oldCount, newCount);
-        console.log('cnt ', numHearts);
-        console.log('hearts ', this.state.hearts);
 
         if (numHearts <= 0) {
             return;
@@ -42,8 +40,6 @@ class FloatingHearts extends Component {
         const newHearts = items
             .map((item, i) => oldCount + i)
             .map(this.createHeart);
-        console.log('newhearts', newHearts);
-        console.log('-----');
         this.setState({ hearts: this.state.hearts.concat(newHearts) });
     }
 
@@ -55,22 +51,8 @@ class FloatingHearts extends Component {
 
     render() {
         const { height } = this.state;
-        const { color, renderCustomShape } = this.props;
+        const { renderCustomShape } = this.props;
         const isReady = height !== null;
-
-        const colorBook = [
-            '#ffe3e3',
-            '#ffa8a8',
-            '#ff6b6b',
-            '#f03e3e',
-            '#c92a2a',
-        ];
-
-        let heartProps = {};
-        if (color !== null) {
-            heartProps.color = color;
-            heartProps.color = colorBook[Math.round(Math.random() * 4)];
-        }
 
         return (
             <View
@@ -78,7 +60,7 @@ class FloatingHearts extends Component {
                 onLayout={this.handleOnLayout}
                 pointerEvents="none">
                 {isReady &&
-                    this.state.hearts.map(({ id, right }, i) => (
+                    this.state.hearts.map(({ id, right, color }, i) => (
                         <AnimatedShape
                             key={id}
                             height={height}
@@ -87,7 +69,7 @@ class FloatingHearts extends Component {
                             {renderCustomShape ? (
                                 renderCustomShape(id)
                             ) : (
-                                <HeartShape color={colorBook[i % 5]} />
+                                <HeartShape color={color} />
                             )}
                         </AnimatedShape>
                     ))}
@@ -235,6 +217,13 @@ const styles = StyleSheet.create({
  */
 
 const getRandomNumber = (min, max) => Math.random() * (max - min) + min;
+
+const colorBook = () => {
+    const num = Math.round(Math.random() * 4);
+    const color = ['#ffe3e3', '#ffa8a8', '#ff6b6b', '#f03e3e', '#c92a2a'];
+
+    return color[num];
+};
 
 /**
  * Exports
