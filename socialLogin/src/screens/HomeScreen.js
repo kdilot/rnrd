@@ -14,7 +14,7 @@ import { ButtonComponent, TabComponent } from '../js/components';
 import {
     KaKaoAuth,
     FacebookAuth,
-    GoogleAuth,
+    GAuth,
     PhoneAuth,
     NaverAuth,
     AnonymousAuth,
@@ -90,7 +90,7 @@ const HomeScreen = () => {
         }
         if (platform === 'google') {
             //  구글
-            GoogleAuth()
+            GAuth()
                 .then(() =>
                     onUser({
                         uid: auth().currentUser.uid,
