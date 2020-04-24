@@ -43,14 +43,17 @@ const Test = ({ count }) => {
         };
     };
 
-    const removeHeart = useCallback((id) => {
-        console.log('REMOVE 실행 ', id, hearts.length);
-        setHearts(
-            hearts.filter((heart) => {
-                return heart.id !== id;
-            }),
-        );
-    }, []);
+    const removeHeart = useCallback(
+        (id) => {
+            console.log('REMOVE 실행 ', id, hearts.length);
+            setHearts(
+                hearts.filter((heart) => {
+                    return heart.id !== id;
+                }),
+            );
+        },
+        [hearts],
+    );
 
     useEffect(() => {
         const oldCount = prevCount;
