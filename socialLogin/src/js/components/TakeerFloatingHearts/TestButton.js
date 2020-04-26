@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, Image, View } from 'react-native';
 import Test from './Test';
