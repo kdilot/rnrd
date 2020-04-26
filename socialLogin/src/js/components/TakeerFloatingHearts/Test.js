@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
     View,
@@ -33,7 +34,7 @@ const getRandomColor = () => {
 
 const Test = ({ count }) => {
     const [hearts, setHearts] = useState([]);
-    const prevCount = usePrevious(count) | 0;
+    const prevCount = usePrevious(count) || 0;
 
     const addHeart = (index) => {
         return {
@@ -74,7 +75,7 @@ const Test = ({ count }) => {
     }, [count, prevCount, hearts]);
 
     useEffect(() => {
-        console.log(`하트 개수 변동 발생 `, hearts.length);
+        console.log('하트 개수 변동 발생 ', hearts.length);
     }, [hearts]);
 
     return (
@@ -164,6 +165,7 @@ const HeartContainer = (props) => {
             toValue: negativeEndY,
             useNativeDriver: true,
         }).start(props.onComplete);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
